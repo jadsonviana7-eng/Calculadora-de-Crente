@@ -35,41 +35,44 @@
             color: var(--text-main);
             display: flex; justify-content: center;
             overflow-x: hidden;
+            touch-action: manipulation;
         }
 
+        /* Overlay do Versículo (Pop-up Inicial) */
         #overlay-verse {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(15px);
             display: flex; align-items: center; justify-content: center;
             z-index: 10000; visibility: hidden; opacity: 0;
-            transition: 0.4s ease;
+            transition: 0.5s ease;
         }
         #overlay-verse.show { visibility: visible; opacity: 1; }
 
         .popup-card {
             background: var(--primary); color: var(--bg-deep);
-            width: 85%; max-width: 380px; padding: 40px 25px;
-            border-radius: 32px; text-align: center;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            transform: scale(0.8); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 85%; max-width: 380px; padding: 45px 30px;
+            border-radius: 35px; text-align: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            transform: scale(0.7); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         #overlay-verse.show .popup-card { transform: scale(1); }
-
-        .popup-text { font-size: 1.3rem; font-weight: 800; line-height: 1.4; margin-bottom: 30px; }
-
+        .popup-text { font-size: 1.4rem; font-weight: 800; line-height: 1.5; margin-bottom: 35px; }
+        
         .btn-amem {
             background: var(--bg-deep); color: white; border: none;
-            padding: 18px; border-radius: 20px;
-            font-weight: 800; font-size: 1.1rem; cursor: pointer;
-            width: 100%; text-transform: uppercase;
+            padding: 20px; border-radius: 22px;
+            font-weight: 800; font-size: 1.2rem; cursor: pointer;
+            width: 100%; text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
+        /* Botão Sair */
         .exit-app-btn {
-            position: absolute; top: 15px; left: 15px;
-            background: rgba(251, 113, 133, 0.1); border: 1px solid var(--danger);
-            color: var(--danger); border-radius: 8px; padding: 5px 10px;
-            font-size: 0.7rem; font-weight: 800; cursor: pointer; z-index: 100;
+            position: absolute; top: 20px; left: 20px;
+            background: rgba(251, 113, 133, 0.15); border: 1px solid var(--danger);
+            color: var(--danger); border-radius: 10px; padding: 6px 12px;
+            font-size: 0.75rem; font-weight: 800; cursor: pointer; z-index: 100;
         }
 
         .container {
@@ -80,151 +83,269 @@
 
         .tabs {
             display: flex; background: rgba(0,0,0,0.3);
-            border-radius: 16px; padding: 5px; margin-bottom: 25px; margin-top: 40px;
+            border-radius: 20px; padding: 6px; margin-bottom: 30px; margin-top: 50px;
         }
 
         .tab-btn {
-            flex: 1; padding: 14px; border: none; background: transparent;
-            color: var(--text-dim); font-weight: 600; cursor: pointer;
-            border-radius: 12px; transition: 0.3s ease; font-size: 0.9rem;
+            flex: 1; padding: 15px; border: none; background: transparent;
+            color: var(--text-dim); font-weight: 700; cursor: pointer;
+            border-radius: 15px; transition: 0.3s ease; font-size: 0.9rem;
         }
 
         .tab-btn.active {
             background: var(--primary); color: var(--bg-deep);
-            box-shadow: 0 0 15px var(--glow);
+            box-shadow: 0 8px 20px var(--glow);
         }
 
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
         .glass-card {
-            background: var(--card); backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 32px; padding: 25px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-        }
-
-        /* NOVO LABEL */
-        .label-sm {
-            display: block;
-            width: 100%;
-            text-align: center;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-dim);
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
+            background: var(--card); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 35px; padding: 30px;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.8);
         }
 
         #valor_salario, .calc-display {
-            width: 100%; background: rgba(0, 0, 0, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px; padding: 18px; font-size: 2.2rem;
+            width: 100%; background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px; padding: 22px; font-size: 2.4rem;
             color: var(--danger); text-align: center; font-weight: 800;
-            outline: none; box-sizing: border-box;
+            outline: none; box-sizing: border-box; margin-bottom: 15px;
         }
 
         .total-display {
             background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
-            border-radius: 24px; padding: 20px; margin: 20px 0;
-            text-align: center; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+            border-radius: 28px; padding: 25px; margin: 20px 0;
+            text-align: center; box-shadow: 0 15px 30px rgba(37, 99, 235, 0.4);
         }
 
-        #total_val { font-size: 2.5rem; font-weight: 800; color: white; }
+        #total_val { font-size: 2.8rem; font-weight: 800; color: white; }
 
         .result-card {
             display: flex; justify-content: space-between; align-items: center;
-            background: rgba(15, 23, 42, 0.4); padding: 15px 20px; border-radius: 18px;
-            margin-bottom: 8px; border: 1px solid rgba(255, 255, 255, 0.03);
+            background: rgba(15, 23, 42, 0.5); padding: 18px 25px; border-radius: 20px;
+            margin-bottom: 10px; border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .res-label { font-size: 0.8rem; font-weight: 600; color: var(--text-dim); }
-        .res-val { color: #fff; font-size: 1.1rem; font-weight: 700; }
+        .res-label { font-size: 0.85rem; font-weight: 700; color: var(--text-dim); }
+        .res-val { color: #fff; font-size: 1.2rem; font-weight: 800; }
 
-        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; }
-
-        .footer { margin-top: auto; text-align: center; padding: 40px 0 20px; }
-
-        /* NOVO RODAPÉ */
-        .creator-info {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
+        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 25px; }
+        .calc-btn {
+            padding: 22px 0; border-radius: 20px; border: none;
+            background: rgba(255,255,255,0.08); color: white;
+            font-size: 1.4rem; font-weight: 700; cursor: pointer; transition: 0.2s;
         }
+        .calc-btn:active { transform: scale(0.9); background: rgba(255,255,255,0.15); }
+        .calc-btn.op { background: var(--primary); color: var(--bg-deep); }
+        .calc-btn.eq { background: var(--success); color: white; }
 
-        .created-label {
-            font-size: 0.7rem;
-            color: var(--text-dim);
-            letter-spacing: 1.5px;
-        }
-
-        .creator-main {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .creator-year {
-            font-size: 0.75rem;
-            color: var(--text-dim);
-        }
-
-        .icon-coin {
-            width: 24px;
-            height: 24px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--bg-deep);
-            font-weight: 800;
-            font-size: 0.75rem;
-        }
+        .footer { margin-top: auto; text-align: center; padding: 50px 0 30px; }
+        .creator-info { font-size: 1.1rem; font-weight: 800; color: white; display: flex; align-items: center; justify-content: center; gap: 10px; opacity: 0.9; }
+        .icon-coin { width: 28px; height: 28px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--bg-deep); font-weight: 900; font-size: 0.9rem; }
     </style>
 </head>
-
 <body onclick="entrarFullScreen()">
 
-<div class="container">
-
-    <div class="tabs">
-        <button class="tab-btn active" onclick="openTab('tributos')">Tributos</button>
-        <button class="tab-btn" onclick="openTab('calculadora')">Calculadora</button>
-    </div>
-
-    <div id="tributos" class="tab-content active">
-        <div class="glass-card">
-
-            <span class="label-sm">Valor a Calcular</span>
-
-            <input type="text" id="valor_salario" placeholder="R$ 0" onkeyup="calcularTributos()">
-
-            <div class="total-display">
-                <span id="total_val">R$ 0,00</span>
-            </div>
-
+    <div id="overlay-verse">
+        <div class="popup-card">
+            <div id="popup-text" class="popup-text"></div>
+            <button class="btn-amem" onclick="fecharPopup()">AMÉM</button>
         </div>
     </div>
 
-    <div class="footer">
-        <div class="creator-info">
+    <div class="container">
+        <button class="exit-app-btn" onclick="sairApp()">SAIR</button>
 
-            <div class="created-label">CREATED BY</div>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab('tributos')">Tributos</button>
+            <button class="tab-btn" onclick="openTab('calculadora')">Calculadora</button>
+        </div>
 
-            <div class="creator-main">
-                <div class="icon-coin">$</div>
-                <div>JADSON VIANA</div>
+        <div id="tributos" class="tab-content active">
+            <div class="glass-card">
+                <input type="text" id="valor_salario" placeholder="R$ 0" onkeyup="calcularTributos()">
+                <div class="total-display">
+                    <span id="total_val">R$ 0,00</span>
+                </div>
+                <div class="results-list">
+                    <div class="result-card"><span class="res-label">PRIMÍCIA</span><span class="res-val" id="res-p">R$ 0,00</span></div>
+                    <div class="result-card"><span class="res-label">DÍZIMO</span><span class="res-val" id="res-d">R$ 0,00</span></div>
+                    <div class="result-card"><span class="res-label">SOCORRO</span><span class="res-val" id="res-s">R$ 0,00</span></div>
+                    <div class="result-card"><span class="res-label">GRATIDÃO</span><span class="res-val" id="res-g">R$ 0,00</span></div>
+                    <div class="result-card"><span class="res-label">SEMEADURA</span><span class="res-val" id="res-sem">R$ 0,00</span></div>
+                    <div class="result-card"><span class="res-label">ISRAEL</span><span class="res-val" id="res-isr">R$ 0,00</span></div>
+                </div>
             </div>
+        </div>
 
-            <div class="creator-year">2026</div>
+        <div id="calculadora" class="tab-content">
+            <div class="glass-card">
+                <input type="text" id="calc-display" class="calc-display" readonly value="0">
+                <div class="calc-grid">
+                    <button class="calc-btn op" onclick="clearCalc()">C</button>
+                    <button class="calc-btn op" onclick="press('/')">÷</button>
+                    <button class="calc-btn op" onclick="press('*')">×</button>
+                    <button class="calc-btn op" onclick="backspace()">⌫</button>
+                    
+                    <button class="calc-btn" onclick="press('7')">7</button>
+                    <button class="calc-btn" onclick="press('8')">8</button>
+                    <button class="calc-btn" onclick="press('9')">9</button>
+                    <button class="calc-btn op" onclick="press('-')">-</button>
+                    
+                    <button class="calc-btn" onclick="press('4')">4</button>
+                    <button class="calc-btn" onclick="press('5')">5</button>
+                    <button class="calc-btn" onclick="press('6')">6</button>
+                    <button class="calc-btn op" onclick="press('+')">+</button>
+                    
+                    <button class="calc-btn" onclick="press('1')">1</button>
+                    <button class="calc-btn" onclick="press('2')">2</button>
+                    <button class="calc-btn" onclick="press('3')">3</button>
+                    <button class="calc-btn eq" onclick="calculateResult()">=</button>
+                    
+                    <button class="calc-btn" style="grid-column: span 2" onclick="press('0')">0</button>
+                    <button class="calc-btn" onclick="press('.')">,</button>
+                    <button class="calc-btn op" onclick="press('%')">%</button>
+                </div>
+            </div>
+        </div>
 
+        <div class="footer">
+            <div class="creator-info">
+                <div class="icon-coin">$</div> JADSON VIANA
+            </div>
         </div>
     </div>
 
-</div>
+    <script>
+        // --- LÓGICA PWA (SISTEMA DE INSTALAÇÃO) ---
+        const manifest = {
+            "name": "Tributos Premium",
+            "short_name": "Tributos",
+            "start_url": "./index.html",
+            "display": "standalone",
+            "background_color": "#0f172a",
+            "theme_color": "#38bdf8",
+            "description": "Calculadora de Tributos e Finanças",
+            "icons": [{ 
+                "src": "https://cdn-icons-png.flaticon.com/512/2454/2454282.png", 
+                "sizes": "512x512", 
+                "type": "image/png",
+                "purpose": "any maskable"
+            }]
+        };
+        const stringManifest = JSON.stringify(manifest);
+        const blob = new Blob([stringManifest], {type: 'application/json'});
+        const manifestURL = URL.createObjectURL(blob);
+        document.querySelector('#manifest-placeholder').setAttribute('href', manifestURL);
 
+        // Registro de Service Worker para funcionamento offline e instalação
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('data:text/javascript;base64,' + btoa(`
+                self.addEventListener('fetch', function(event) {});
+            `));
+        }
+
+        // --- LÓGICA DO APLICATIVO ---
+        const versiculos = [
+            '"Honra ao Senhor com os teus bens e com as primícias de toda a tua renda." (Provérbios 3:9)',
+            '"Cada um dê conforme determinou em seu coração, pois Deus ama quem dá com alegria." (2 Coríntios 9:7)',
+            '"Buscai primeiro o Reino de Deus e a sua justiça, e as demais coisas vos serão acrescentadas." (Mateus 6:33)',
+            '"Trazei todos os dízimos à casa do tesouro, para que haja mantimento na minha casa." (Malaquias 3:10)',
+            '"O que semeia com fartura, com fartura também ceifará." (2 Coríntios 9:6)'
+        ];
+
+        $(function() {
+            // Máscara de dinheiro
+            $("#valor_salario").maskMoney({symbol:'R$ ', thousands:'.', decimal:',', precision:0});
+            
+            // Sorteia versículo e mostra Pop-up
+            let rand = Math.floor(Math.random() * versiculos.length);
+            $("#popup-text").text(versiculos[rand]);
+            setTimeout(() => { $("#overlay-verse").addClass("show"); }, 300);
+        });
+
+        function fecharPopup() { 
+            $("#overlay-verse").removeClass("show"); 
+            entrarFullScreen();
+        }
+
+        function entrarFullScreen() {
+            let el = document.documentElement;
+            if (el.requestFullscreen) el.requestFullscreen();
+            else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+            else if (el.msRequestFullscreen) el.msRequestFullscreen();
+        }
+
+        function sairApp() { 
+            if(confirm("Deseja fechar o aplicativo?")) {
+                window.location.href = "about:blank";
+            }
+        }
+
+        function openTab(name) {
+            $('.tab-content, .tab-btn').removeClass('active');
+            $('#' + name).addClass('active');
+            $(`button[onclick="openTab('${name}')"]`).addClass('active');
+        }
+
+        function calcularTributos() {
+            let raw = $("#valor_salario").val().replace(/[R$\.\s]/g, '').replace(',', '.');
+            let v = parseFloat(raw) || 0;
+            
+            if(v === 0) {
+                $("#total_val").text("R$ 0,00");
+                $(".res-val").text("R$ 0,00");
+                return;
+            }
+
+            // Regras de cálculo
+            let p = Math.ceil(v / 30);
+            let d = Math.ceil((v - p) * 0.10);
+            let s = Math.ceil(v * 0.02);
+            let g = Math.ceil(v * 0.0010);
+            let sem = Math.ceil(v * 0.0040);
+            let isr = Math.ceil(v * 0.01);
+            let total = p + d + s + g + sem + isr;
+
+            const fmt = (val) => val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            
+            $("#res-p").text(fmt(p));
+            $("#res-d").text(fmt(d));
+            $("#res-s").text(fmt(s));
+            $("#res-g").text(fmt(g));
+            $("#res-sem").text(fmt(sem));
+            $("#res-isr").text(fmt(isr));
+            $("#total_val").text(fmt(total));
+        }
+
+        // Lógica da Calculadora
+        let currentExp = "";
+        function press(val) {
+            if (currentExp === "0") currentExp = "";
+            currentExp += val;
+            $("#calc-display").val(currentExp);
+        }
+        function clearCalc() {
+            currentExp = "";
+            $("#calc-display").val("0");
+        }
+        function backspace() {
+            currentExp = currentExp.slice(0, -1);
+            $("#calc-display").val(currentExp || "0");
+        }
+        function calculateResult() {
+            try {
+                let res = eval(currentExp.replace('%', '/100'));
+                currentExp = res.toString();
+                $("#calc-display").val(currentExp);
+            } catch {
+                $("#calc-display").val("Erro");
+                currentExp = "";
+            }
+        }
+    </script>
 </body>
 </html>

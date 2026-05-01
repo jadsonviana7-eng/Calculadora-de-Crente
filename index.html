@@ -52,139 +52,140 @@
             width: 85%; max-width: 380px; padding: 40px 25px;
             border-radius: 32px; text-align: center;
             box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            transform: scale(0.8); transition: 0.4s;
+            transform: scale(0.8); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         #overlay-verse.show .popup-card { transform: scale(1); }
-
-        .popup-text { font-size: 1.3rem; font-weight: 800; margin-bottom: 30px; }
-
+        .popup-text { font-size: 1.3rem; font-weight: 800; line-height: 1.4; margin-bottom: 30px; }
+        
         .btn-amem {
             background: var(--bg-deep); color: white; border: none;
             padding: 18px; border-radius: 20px;
             font-weight: 800; font-size: 1.1rem; cursor: pointer;
-            width: 100%;
+            width: 100%; text-transform: uppercase;
+        }
+
+        .exit-app-btn {
+            position: absolute; top: 15px; right: 15px;
+            background: rgba(251, 113, 133, 0.1); border: 1px solid var(--danger);
+            color: var(--danger); border-radius: 8px; padding: 5px 12px;
+            font-size: 0.7rem; font-weight: 800; cursor: pointer; z-index: 100;
+            text-transform: uppercase;
         }
 
         .container {
             width: 100%; max-width: 480px; padding: 20px;
             display: flex; flex-direction: column; min-height: 100vh;
+            position: relative;
         }
 
         .tabs {
             display: flex; background: rgba(0,0,0,0.3);
-            border-radius: 16px; padding: 5px; margin: 40px 0 25px;
+            border-radius: 16px; padding: 5px; margin-bottom: 25px; margin-top: 40px;
         }
 
         .tab-btn {
             flex: 1; padding: 14px; border: none; background: transparent;
             color: var(--text-dim); font-weight: 600; cursor: pointer;
-            border-radius: 12px;
+            border-radius: 12px; transition: 0.3s ease; font-size: 0.9rem;
         }
 
         .tab-btn.active {
             background: var(--primary); color: var(--bg-deep);
+            box-shadow: 0 0 15px var(--glow);
         }
 
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
         .glass-card {
-            background: var(--card);
+            background: var(--card); backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 32px; padding: 25px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
         }
 
-        /* AJUSTE DO TÍTULO */
+        /* FIX LABEL CENTRALIZADA */
         .label-sm {
-        display: block;
-        width: 100%;
-        text-align: center;
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: var(--text-dim);
-        margin-bottom: 14px;
-        text-transform: uppercase;
-        letter-spacing: 2px;
+            display: block;
+            width: 100%;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-dim);
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        #valor_salario {
-            width: 100%;
-            padding: 18px;
-            font-size: 2rem;
-            border-radius: 20px;
-            text-align: center;
+        #valor_salario, .calc-display {
+            width: 100%; background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px; padding: 18px; font-size: 2.2rem;
+            color: var(--danger); text-align: center; font-weight: 800;
+            outline: none; box-sizing: border-box;
         }
 
         .total-display {
-            background: linear-gradient(135deg, #0284c7, #2563eb);
+            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
             border-radius: 24px; padding: 20px; margin: 20px 0;
             text-align: center;
         }
 
-        #total_val { font-size: 2.5rem; font-weight: 800; }
+        #total_val { font-size: 2.5rem; font-weight: 800; color: white; }
 
         .result-card {
-            display: flex; justify-content: space-between;
-            padding: 15px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(15, 23, 42, 0.4); padding: 15px 20px; border-radius: 18px;
             margin-bottom: 8px;
         }
 
-        /* NOVO RODAPÉ */
-        .footer { margin-top: auto; padding: 40px 0 20px; }
+        /* RODAPÉ CORRETO */
+        .footer { margin-top: auto; text-align: center; padding: 40px 0 20px; }
 
-.creator-info { 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center;
-    gap: 6px;
-    text-align: center;
-}
+        .creator-info { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 6px;
+        }
 
-.created-label { 
-    font-size: 0.75rem; 
-    font-weight: 600; 
-    color: var(--text-dim); 
-    letter-spacing: 2px;
-    text-align: center;
-}
+        .created-label { 
+            font-size: 0.75rem; 
+            font-weight: 600; 
+            color: var(--text-dim); 
+            letter-spacing: 2px;
+        }
 
-.creator-main {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
+        .creator-main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
 
-.creator-name { 
-    color: white; 
-    font-weight: 800; 
-    font-size: 1.05rem;
-    text-align: center;
-}
+        .creator-name { 
+            color: white; 
+            font-weight: 800; 
+            font-size: 1.05rem;
+        }
 
-.creator-year {
-    font-size: 0.8rem;
-    color: var(--text-dim);
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-align: center;
-}
+        .creator-year {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
 
         .icon-coin { 
-            width: 28px; 
-            height: 28px; 
-            background: var(--primary); 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            color: var(--bg-deep); 
-            font-weight: 800; 
+            width: 28px; height: 28px; background: var(--primary);
+            border-radius: 50%; display: flex;
+            align-items: center; justify-content: center;
+            color: var(--bg-deep); font-weight: 800;
         }
     </style>
 </head>
 
-<body>
+<body onclick="entrarFullScreen()">
 
 <div class="container">
 
@@ -194,7 +195,7 @@
     </div>
 
     <div class="glass-card">
-        <span class="label-sm">VALOR A CALCULAR</span>
+        <span class="label-sm">Valor a Calcular</span>
         <input type="text" id="valor_salario" placeholder="Digite o seu valor aqui">
 
         <div class="total-display">

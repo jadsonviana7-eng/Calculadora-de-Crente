@@ -260,7 +260,6 @@
         ];
 
         $(function() {
-        // Inicializa a máscara, mas sem forçar valor inicial
         $("#valor_salario").maskMoney({
             symbol:'R$ ', 
             thousands:'.', 
@@ -270,10 +269,16 @@
             showSymbol: true
         });
     
-        // Garante que o campo comece vazio para o placeholder aparecer
         $("#valor_salario").val('');
     
-        // Abrir popup ao carregar
+        // Força a limpeza se o usuário apagar tudo manualmente
+        $("#valor_salario").on('change keyup paste mouseup', function() {
+            if ($(this).val() === "") {
+                calcularTributos();
+            }
+        });
+    
+        // Código do versículo...
         let rand = Math.floor(Math.random() * versiculos.length);
         $("#popup-text").text(versiculos[rand]);
         setTimeout(() => { $("#overlay-verse").addClass("show"); }, 500);
@@ -310,16 +315,40 @@
         }
 
         function calcularTributos() {
-            let raw = $("#valor_salario").val().replace(/[R$\.\s]/g, '').replace(',', '.');
-            let v = parseFloat(raw) || 0;
-            if(v === 0) return;
-            let p = Math.ceil(v / 30), d = Math.ceil((v - p) * 0.10), s = Math.ceil(v * 0.02),
-                g = Math.ceil(v * 0.0010), sem = Math.ceil(v * 0.0040), isr = Math.ceil(v * 0.01);
-            let total = p + d + s + g + sem + isr;
-            const fmt = (val) => val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-            $("#res-p").text(fmt(p)); $("#res-d").text(fmt(d)); $("#res-s").text(fmt(s));
-            $("#res-g").text(fmt(g)); $("#res-sem").text(fmt(sem)); $("#res-isr").text(fmt(isr));
-            $("#total_val").text(fmt(total));
+        let raw = $("#valor_salario").val().replace(/[R$\.\s]/g, '').replace(',', '.');
+        let v = parseFloat(raw);
+    
+        // Se o valor não existir, for zero ou não for um número, zera tudo
+        if (!v || v === 0 || isNaN(v)) {
+            const zero = "R$ 0,00";
+            $("#res-p").text(zero);
+            $("#res-d").text(zero);
+            $("#res-s").text(zero);
+            $("#res-g").text(zero);
+            $("#res-sem").text(zero);
+            $("#res-isr").text(zero);
+            $("#total_val").text(zero);
+            return;
+        }
+    
+        // Se houver valor, faz o cálculo normal
+        let p = Math.ceil(v / 30);
+        let d = Math.ceil((v - p) * 0.10);
+        let s = Math.ceil(v * 0.02);
+        let g = Math.ceil(v * 0.0010);
+        let sem = Math.ceil(v * 0.0040);
+        let isr = Math.ceil(v * 0.01);
+        let total = p + d + s + g + sem + isr;
+    
+        const fmt = (val) => val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        
+        $("#res-p").text(fmt(p));
+        $("#res-d").text(fmt(d));
+        $("#res-s").text(fmt(s));
+        $("#res-g").text(fmt(g));
+        $("#res-sem").text(fmt(sem));
+        $("#res-isr").text(fmt(isr));
+        $("#total_val").text(fmt(total));
         }
 
         let currentExp = "";

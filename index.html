@@ -105,7 +105,6 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
         }
 
-        /* Rótulo "Valor a Calcular" ajustado */
         .label-sm {
             display: block; font-size: 0.8rem; font-weight: 600;
             color: var(--text-dim); margin-bottom: 12px; text-transform: uppercase;
@@ -150,10 +149,20 @@
         .calc-btn.op { background: var(--primary); color: var(--bg-deep); }
         .calc-btn.eq { background: var(--success); color: white; }
 
+        /* Rodapé Corrigido */
         .footer { margin-top: auto; text-align: center; padding: 40px 0 20px; }
-        .creator-info { font-size: 0.85rem; font-weight: 600; color: var(--text-dim); display: flex; align-items: center; justify-content: center; gap: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .creator-info { 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            gap: 5px; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .created-label { font-size: 0.75rem; font-weight: 600; color: var(--text-dim); }
+        .creator-row { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
         .creator-name { color: white; font-weight: 800; }
-        .icon-coin { width: 22px; height: 22px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--bg-deep); font-weight: 800; font-size: 0.7rem; }
+        .icon-coin { 
+            width: 20px; height: 20px; background: var(--primary); border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            color: var(--bg-deep); font-weight: 800; font-size: 0.65rem; 
+        }
     </style>
 </head>
 <body onclick="entrarFullScreen()">
@@ -221,13 +230,17 @@
 
         <div class="footer">
             <div class="creator-info">
-                Created By: <span class="creator-name">JADSON VIANA</span> <div class="icon-coin">$</div> 2026
+                <span class="created-label">Created By:</span>
+                <div class="creator-row">
+                    <span class="creator-name">JADSON VIANA</span> 
+                    <div class="icon-coin">$</div> 
+                    <span class="creator-name">2026</span>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- LÓGICA PWA ---
         const manifest = {
             "name": "Tributos Premium",
             "short_name": "Tributos",

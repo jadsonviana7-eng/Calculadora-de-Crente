@@ -52,6 +52,15 @@
         }
         #overlay-verse.show { visibility: visible; opacity: 1; }
 
+
+        #valor_salario::placeholder {
+        font-size: 1.1rem; /* Diminui o tamanho apenas do texto de orientação */
+        color: var(--text-dim);
+        font-weight: 400;
+        opacity: 0.6;
+        }
+        
+        
         .popup-card {
             background: var(--primary); color: var(--bg-deep);
             width: 85%; max-width: 380px; padding: 40px 25px;
@@ -176,7 +185,8 @@
 
         <div id="tributos" class="tab-content active">
             <div class="glass-card">
-                <input type="text" id="valor_salario" placeholder="R$ 0" onkeyup="calcularTributos()">
+                <span class="label-sm">Valor a Calcular</span>
+                <input type="tel" id="valor_salario" placeholder="Digite o seu valor aqui" inputmode="numeric" onkeyup="calcularTributos()">
                 <div class="total-display">
                     <span id="total_val">R$ 0,00</span>
                 </div>
@@ -250,10 +260,20 @@
         ];
 
         $(function() {
-            $("#valor_salario").maskMoney({symbol:'R$ ', thousands:'.', decimal:',', precision:0});
-            let rand = Math.floor(Math.random() * versiculos.length);
-            $("#popup-text").text(versiculos[rand]);
-            setTimeout(() => { $("#overlay-verse").addClass("show"); }, 500);
+        // Agora o prefixo só aparece quando o usuário começa a digitar
+        $("#valor_salario").maskMoney({
+            symbol:'R$ ', 
+            thousands:'.', 
+            decimal:',', 
+            precision:0, 
+            allowZero: false,
+            showSymbol: true
+        });
+        
+        // Abrir popup ao carregar
+        let rand = Math.floor(Math.random() * versiculos.length);
+        $("#popup-text").text(versiculos[rand]);
+        setTimeout(() => { $("#overlay-verse").addClass("show"); }, 500);
         });
 
         function fecharPopup() { 

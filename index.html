@@ -65,7 +65,6 @@
             width: 100%; text-transform: uppercase;
         }
 
-        /* Botão Sair - Canto Direito */
         .exit-app-btn {
             position: absolute; top: 15px; right: 15px;
             background: rgba(251, 113, 133, 0.1); border: 1px solid var(--danger);
@@ -106,8 +105,223 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
         }
 
+        /* Rótulo "Valor a Calcular" ajustado */
+        .label-sm {
+            display: block; font-size: 0.8rem; font-weight: 600;
+            color: var(--text-dim); margin-bottom: 12px; text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
         #valor_salario, .calc-display {
             width: 100%; background: rgba(0, 0, 0, 0.4);
             border: 2px solid rgba(255, 255, 255, 0.05);
             border-radius: 20px; padding: 18px; font-size: 2.2rem;
-            color: var(--danger
+            color: var(--danger); text-align: center; font-weight: 800;
+            outline: none; box-sizing: border-box;
+        }
+
+        #valor_salario::placeholder {
+            font-size: 1.1rem; color: var(--text-dim); font-weight: 400; opacity: 0.6;
+        }
+
+        .total-display {
+            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+            border-radius: 24px; padding: 20px; margin: 20px 0;
+            text-align: center; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        #total_val { font-size: 2.5rem; font-weight: 800; color: white; }
+
+        .result-card {
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(15, 23, 42, 0.4); padding: 15px 20px; border-radius: 18px;
+            margin-bottom: 8px; border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .res-label { font-size: 0.8rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; }
+        .res-val { color: #fff; font-size: 1.1rem; font-weight: 700; }
+
+        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; }
+        .calc-btn {
+            padding: 20px 0; border-radius: 16px; border: none;
+            background: rgba(255,255,255,0.06); color: white;
+            font-size: 1.3rem; font-weight: 600; cursor: pointer;
+        }
+        .calc-btn.op { background: var(--primary); color: var(--bg-deep); }
+        .calc-btn.eq { background: var(--success); color: white; }
+
+        .footer { margin-top: auto; text-align: center; padding: 40px 0 20px; }
+        .creator-info { font-size: 0.85rem; font-weight: 600; color: var(--text-dim); display: flex; align-items: center; justify-content: center; gap: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .creator-name { color: white; font-weight: 800; }
+        .icon-coin { width: 22px; height: 22px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--bg-deep); font-weight: 800; font-size: 0.7rem; }
+    </style>
+</head>
+<body onclick="entrarFullScreen()">
+
+    <div id="overlay-verse">
+        <div class="popup-card">
+            <div id="popup-text" class="popup-text"></div>
+            <button class="btn-amem" onclick="fecharPopup()">AMÉM</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <button class="exit-app-btn" onclick="sairApp()">SAIR</button>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab('tributos')">Tributos</button>
+            <button class="tab-btn" onclick="openTab('calculadora')">Calculadora</button>
+        </div>
+
+        <div id="tributos" class="tab-content active">
+            <div class="glass-card">
+                <span class="label-sm">Valor a Calcular</span>
+                <input type="tel" id="valor_salario" placeholder="Digite o seu valor aqui" inputmode="numeric">
+                
+                <div class="total-display">
+                    <span id="total_val">R$ 0,00</span>
+                </div>
+                <div class="results-list">
+                    <div class="result-card"><span class="res-label">PRIMÍCIA</span><span class="res-val" id="res-p">R$ 0,00</span></div>
+                    <div class="result-card"><span class="res-label">DÍZIMO</span><span class="res-val" id="res-d">R$ 0,00</span></div>
+                    <div class="result-card"><span class="res-label">SOCORRO</span><span class="res-val" id="res-s">R$ 0,00</span></div>
+                    <div class="result-card"><span class="res-label">GRATIDÃO</span><span class="res-val" id="res-g">R$ 0,00</span></div>
+                    <div class="result-card"><span class="res-label">SEMEADURA</span><span class="res-val" id="res-sem">R$ 0,00</span></div>
+                    <div class="result-card"><span class="res-label">ISRAEL</span><span class="res-val" id="res-isr">R$ 0,00</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="calculadora" class="tab-content">
+            <div class="glass-card">
+                <input type="text" id="calc-display" class="calc-display" readonly value="0">
+                <div class="calc-grid">
+                    <button class="calc-btn op" onclick="clearCalc()">C</button>
+                    <button class="calc-btn op" onclick="press('/')">÷</button>
+                    <button class="calc-btn op" onclick="press('*')">×</button>
+                    <button class="calc-btn op" onclick="backspace()">⌫</button>
+                    <button class="calc-btn" onclick="press('7')">7</button>
+                    <button class="calc-btn" onclick="press('8')">8</button>
+                    <button class="calc-btn" onclick="press('9')">9</button>
+                    <button class="calc-btn op" onclick="press('-')">-</button>
+                    <button class="calc-btn" onclick="press('4')">4</button>
+                    <button class="calc-btn" onclick="press('5')">5</button>
+                    <button class="calc-btn" onclick="press('6')">6</button>
+                    <button class="calc-btn op" onclick="press('+')">+</button>
+                    <button class="calc-btn" onclick="press('1')">1</button>
+                    <button class="calc-btn" onclick="press('2')">2</button>
+                    <button class="calc-btn" onclick="press('3')">3</button>
+                    <button class="calc-btn eq" onclick="calculateResult()">=</button>
+                    <button class="calc-btn" style="grid-column: span 2" onclick="press('0')">0</button>
+                    <button class="calc-btn" onclick="press('.')">,</button>
+                    <button class="calc-btn op" onclick="press('%')">%</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="creator-info">
+                Created By: <span class="creator-name">JADSON VIANA</span> <div class="icon-coin">$</div> 2026
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- LÓGICA PWA ---
+        const manifest = {
+            "name": "Tributos Premium",
+            "short_name": "Tributos",
+            "start_url": ".",
+            "display": "standalone",
+            "background_color": "#0f172a",
+            "theme_color": "#38bdf8",
+            "icons": [{ "src": "icone.png", "sizes": "512x512", "type": "image/png" }]
+        };
+        const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+        document.querySelector('#manifest-placeholder').setAttribute('href', URL.createObjectURL(blob));
+
+        const versiculos = [
+            '"Honra ao Senhor com os teus bens e com as primícias de toda a tua renda." (Prov. 3:9)',
+            '"Deus ama quem dá com alegria." (2 Cor. 9:7)',
+            '"Buscai primeiro o Reino de Deus e a sua justiça." (Mat. 6:33)',
+            '"Trazei todos os dízimos à casa do tesouro." (Mal. 3:10)'
+        ];
+
+        $(function() {
+            const $input = $("#valor_salario");
+            $input.maskMoney({symbol:'R$ ', thousands:'.', decimal:',', precision:0, allowZero: false, showSymbol: true});
+            $input.val('');
+
+            $input.on('keyup input propertychange paste blur', function() {
+                calcularTributos();
+            });
+
+            let rand = Math.floor(Math.random() * versiculos.length);
+            $("#popup-text").text(versiculos[rand]);
+            setTimeout(() => { $("#overlay-verse").addClass("show"); }, 500);
+        });
+
+        function fecharPopup() { $("#overlay-verse").removeClass("show"); entrarFullScreen(); }
+
+        function entrarFullScreen() {
+            let el = document.documentElement;
+            if (el.requestFullscreen) el.requestFullscreen();
+            else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+        }
+
+        function sairApp() {
+            if(confirm("Deseja fechar o aplicativo?")) {
+                window.close();
+                setTimeout(() => { window.location.href = "about:blank"; }, 100);
+            }
+        }
+
+        function openTab(name) {
+            $('.tab-content, .tab-btn').removeClass('active');
+            $('#' + name).addClass('active');
+            $(`button[onclick="openTab('${name}')"]`).addClass('active');
+        }
+
+        function calcularTributos() {
+            let valStr = $("#valor_salario").val();
+            
+            if (!valStr || valStr === "" || valStr === "R$ ") {
+                const z = "R$ 0,00";
+                $("#res-p, #res-d, #res-s, #res-g, #res-sem, #res-isr, #total_val").text(z);
+                return;
+            }
+
+            let raw = valStr.replace(/[R$\.\s]/g, '').replace(',', '.');
+            let v = parseFloat(raw);
+
+            if (isNaN(v) || v <= 0) {
+                const z = "R$ 0,00";
+                $("#res-p, #res-d, #res-s, #res-g, #res-sem, #res-isr, #total_val").text(z);
+                return;
+            }
+
+            let p = Math.ceil(v / 30);
+            let d = Math.ceil((v - p) * 0.10);
+            let s = Math.ceil(v * 0.02);
+            let g = Math.ceil(v * 0.0010);
+            let sem = Math.ceil(v * 0.0040);
+            let isr = Math.ceil(v * 0.01);
+            let total = p + d + s + g + sem + isr;
+
+            const fmt = (val) => val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            $("#res-p").text(fmt(p)); $("#res-d").text(fmt(d)); $("#res-s").text(fmt(s));
+            $("#res-g").text(fmt(g)); $("#res-sem").text(fmt(sem)); $("#res-isr").text(fmt(isr));
+            $("#total_val").text(fmt(total));
+        }
+
+        let currentExp = "";
+        function press(val) { currentExp += val; $("#calc-display").val(currentExp); }
+        function clearCalc() { currentExp = ""; $("#calc-display").val("0"); }
+        function backspace() { currentExp = currentExp.slice(0, -1); $("#calc-display").val(currentExp || "0"); }
+        function calculateResult() {
+            try { currentExp = eval(currentExp.replace('%', '/100')).toString(); $("#calc-display").val(currentExp); } 
+            catch { $("#calc-display").val("Erro"); currentExp = ""; }
+        }
+    </script>
+</body>
+</html>

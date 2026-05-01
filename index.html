@@ -71,10 +71,19 @@
 
         /* Botão Sair */
         .exit-app-btn {
-            position: absolute; top: 15px; left: 15px;
-            background: rgba(251, 113, 133, 0.1); border: 1px solid var(--danger);
-            color: var(--danger); border-radius: 8px; padding: 5px 10px;
-            font-size: 0.7rem; font-weight: 800; cursor: pointer; z-index: 100;
+            position: absolute; 
+            top: 15px; 
+            right: 15px; /* Alterado de left para right */
+            background: rgba(251, 113, 133, 0.1); 
+            border: 1px solid var(--danger);
+            color: var(--danger); 
+            border-radius: 8px; 
+            padding: 5px 12px;
+            font-size: 0.7rem; 
+            font-weight: 800; 
+            cursor: pointer; 
+            z-index: 100;
+            text-transform: uppercase;
         }
 
         .container {
@@ -225,7 +234,7 @@
             "display": "standalone",
             "background_color": "#0f172a",
             "theme_color": "#38bdf8",
-            "icons": [{ "src": "https://cdn-icons-png.flaticon.com/512/2454/2454282.png", "sizes": "512x512", "type": "image/png" }]
+            "icons": [{ "src": "icone.png", "sizes": "512x512", "type": "image/png" }]
         };
         const stringManifest = JSON.stringify(manifest);
         const blob = new Blob([stringManifest], {type: 'application/json'});
@@ -258,7 +267,18 @@
             else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
         }
 
-        function sairApp() { if(confirm("Sair?")) window.location.href = "about:blank"; }
+       function sairApp() {
+        if(confirm("Deseja fechar o aplicativo?")) {
+        // Tenta fechar a janela/aba (Funciona bem em apps instalados)
+        window.close();
+        
+        // Caso o comando acima seja bloqueado pelo navegador, 
+        // ele limpa o histórico e redireciona para sair da visão do app
+        setTimeout(function() {
+        window.location.href = "about:blank";
+                }, 100);
+            }
+        }
 
         function openTab(name) {
             $('.tab-content, .tab-btn').removeClass('active');

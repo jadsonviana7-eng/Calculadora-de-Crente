@@ -1,8 +1,6 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-    <link rel="manifest" id="manifest-placeholder">
-    <meta name="theme-color" content="#0f172a">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Tributos & Cálculos Premium</title>
@@ -10,6 +8,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="manifest" id="manifest-placeholder">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
@@ -55,8 +55,9 @@
             transform: scale(0.8); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         #overlay-verse.show .popup-card { transform: scale(1); }
+
         .popup-text { font-size: 1.3rem; font-weight: 800; line-height: 1.4; margin-bottom: 30px; }
-        
+
         .btn-amem {
             background: var(--bg-deep); color: white; border: none;
             padding: 18px; border-radius: 20px;
@@ -65,11 +66,10 @@
         }
 
         .exit-app-btn {
-            position: absolute; top: 15px; right: 15px;
+            position: absolute; top: 15px; left: 15px;
             background: rgba(251, 113, 133, 0.1); border: 1px solid var(--danger);
-            color: var(--danger); border-radius: 8px; padding: 5px 12px;
+            color: var(--danger); border-radius: 8px; padding: 5px 10px;
             font-size: 0.7rem; font-weight: 800; cursor: pointer; z-index: 100;
-            text-transform: uppercase;
         }
 
         .container {
@@ -104,17 +104,17 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
         }
 
-        /* FIX LABEL CENTRALIZADA */
+        /* NOVO LABEL */
         .label-sm {
             display: block;
             width: 100%;
             text-align: center;
-            font-size: 0.85rem;
-            font-weight: 700;
+            font-size: 0.8rem;
+            font-weight: 600;
             color: var(--text-dim);
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 0.08em;
         }
 
         #valor_salario, .calc-display {
@@ -128,7 +128,7 @@
         .total-display {
             background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
             border-radius: 24px; padding: 20px; margin: 20px 0;
-            text-align: center;
+            text-align: center; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
         }
 
         #total_val { font-size: 2.5rem; font-weight: 800; color: white; }
@@ -136,51 +136,52 @@
         .result-card {
             display: flex; justify-content: space-between; align-items: center;
             background: rgba(15, 23, 42, 0.4); padding: 15px 20px; border-radius: 18px;
-            margin-bottom: 8px;
+            margin-bottom: 8px; border: 1px solid rgba(255, 255, 255, 0.03);
         }
 
-        /* RODAPÉ CORRETO */
+        .res-label { font-size: 0.8rem; font-weight: 600; color: var(--text-dim); }
+        .res-val { color: #fff; font-size: 1.1rem; font-weight: 700; }
+
+        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; }
+
         .footer { margin-top: auto; text-align: center; padding: 40px 0 20px; }
 
-        .creator-info { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            gap: 6px;
+        /* NOVO RODAPÉ */
+        .creator-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
         }
 
-        .created-label { 
-            font-size: 0.75rem; 
-            font-weight: 600; 
-            color: var(--text-dim); 
-            letter-spacing: 2px;
+        .created-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 1.5px;
         }
 
         .creator-main {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .creator-name { 
-            color: white; 
-            font-weight: 800; 
-            font-size: 1.05rem;
+            gap: 6px;
         }
 
         .creator-year {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-dim);
-            font-weight: 600;
-            letter-spacing: 1px;
         }
 
-        .icon-coin { 
-            width: 28px; height: 28px; background: var(--primary);
-            border-radius: 50%; display: flex;
-            align-items: center; justify-content: center;
-            color: var(--bg-deep); font-weight: 800;
+        .icon-coin {
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-deep);
+            font-weight: 800;
+            font-size: 0.75rem;
         }
     </style>
 </head>
@@ -190,29 +191,36 @@
 <div class="container">
 
     <div class="tabs">
-        <button class="tab-btn active">Tributos</button>
-        <button class="tab-btn">Calculadora</button>
+        <button class="tab-btn active" onclick="openTab('tributos')">Tributos</button>
+        <button class="tab-btn" onclick="openTab('calculadora')">Calculadora</button>
     </div>
 
-    <div class="glass-card">
-        <span class="label-sm">Valor a Calcular</span>
-        <input type="text" id="valor_salario" placeholder="Digite o seu valor aqui">
+    <div id="tributos" class="tab-content active">
+        <div class="glass-card">
 
-        <div class="total-display">
-            <span id="total_val">R$ 0,00</span>
+            <span class="label-sm">Valor a Calcular</span>
+
+            <input type="text" id="valor_salario" placeholder="R$ 0" onkeyup="calcularTributos()">
+
+            <div class="total-display">
+                <span id="total_val">R$ 0,00</span>
+            </div>
+
         </div>
     </div>
 
     <div class="footer">
         <div class="creator-info">
-            <span class="created-label">CREATED BY</span>
+
+            <div class="created-label">CREATED BY</div>
 
             <div class="creator-main">
                 <div class="icon-coin">$</div>
-                <span class="creator-name">JADSON VIANA</span>
+                <div>JADSON VIANA</div>
             </div>
 
-            <span class="creator-year">2026</span>
+            <div class="creator-year">2026</div>
+
         </div>
     </div>
 

@@ -186,7 +186,7 @@
         <div id="tributos" class="tab-content active">
             <div class="glass-card">
                 <span class="label-sm">Valor a Calcular</span>
-                <input type="tel" id="valor_salario" placeholder="Digite o seu valor aqui" inputmode="numeric" onkeyup="calcularTributos()">
+               <input type="tel" id="valor_salario" placeholder="Digite o seu valor aqui" inputmode="decimal" onkeyup="calcularTributos()">
                 <div class="total-display">
                     <span id="total_val">R$ 0,00</span>
                 </div>
@@ -260,7 +260,7 @@
         ];
 
         $(function() {
-        // Agora o prefixo só aparece quando o usuário começa a digitar
+        // Inicializa a máscara, mas sem forçar valor inicial
         $("#valor_salario").maskMoney({
             symbol:'R$ ', 
             thousands:'.', 
@@ -269,7 +269,10 @@
             allowZero: false,
             showSymbol: true
         });
-        
+    
+        // Garante que o campo comece vazio para o placeholder aparecer
+        $("#valor_salario").val('');
+    
         // Abrir popup ao carregar
         let rand = Math.floor(Math.random() * versiculos.length);
         $("#popup-text").text(versiculos[rand]);

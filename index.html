@@ -68,12 +68,12 @@
         }
 
         /* Botão Sair */
-        .exit-app-btn {
+       /* .exit-app-btn {
             position: absolute; top: 20px; left: 20px;
             background: rgba(251, 113, 133, 0.15); border: 1px solid var(--danger);
             color: var(--danger); border-radius: 10px; padding: 6px 12px;
             font-size: 0.75rem; font-weight: 800; cursor: pointer; z-index: 100;
-        }
+        }*/
 
         .container {
             width: 100%; max-width: 480px; padding: 20px;
@@ -142,9 +142,11 @@
         .calc-btn.op { background: var(--primary); color: var(--bg-deep); }
         .calc-btn.eq { background: var(--success); color: white; }
 
-        .footer { margin-top: auto; text-align: center; padding: 50px 0 30px; }
-        .creator-info { font-size: 1.1rem; font-weight: 800; color: white; display: flex; align-items: center; justify-content: center; gap: 10px; opacity: 0.9; }
-        .icon-coin { width: 28px; height: 28px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--bg-deep); font-weight: 900; font-size: 0.9rem; }
+        /* Footer */
+        .footer { margin-top: auto; text-align: center; padding: 40px 0 20px; }
+        .created-text { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); margin-bottom: 5px; }
+        .creator-info { font-size: 1rem; font-weight: 800; color: white; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .icon-coin { width: 24px; height: 24px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--bg-deep); font-weight: 800; font-size: 0.75rem; }
     </style>
 </head>
 <body onclick="entrarFullScreen()">
@@ -212,18 +214,19 @@
             </div>
         </div>
 
-        <div class="footer">
-            <div class="creator-info">
-                <div class="icon-coin">$</div> JADSON VIANA
+            <div class="footer">
+                    <div class="created-text">Created By</div>
+                    <div class="creator-info">
+                    <div class="icon-coin">$</div> JADSON VIANA
+                </div>
+
             </div>
         </div>
-    </div>
-
     <script>
         // --- LÓGICA PWA (SISTEMA DE INSTALAÇÃO) ---
         const manifest = {
             "name": "Tributos Premium",
-            "short_name": "Tributos",
+            "short_name": "Calculadora de Crente",
             "start_url": "./index.html",
             "display": "standalone",
             "background_color": "#0f172a",
@@ -279,11 +282,11 @@
             else if (el.msRequestFullscreen) el.msRequestFullscreen();
         }
 
-        function sairApp() { 
+        /*function sairApp() { 
             if(confirm("Deseja fechar o aplicativo?")) {
                 window.location.href = "about:blank";
             }
-        }
+        }*/
 
         function openTab(name) {
             $('.tab-content, .tab-btn').removeClass('active');

@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#0f172a">
-    <link rel="manifest" id="manifest-placeholder">
+    <link rel="manifest" href="manifest.json">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
@@ -235,32 +235,14 @@
             </div>
         </div>
     <script>
-        // --- LÓGICA PWA (SISTEMA DE INSTALAÇÃO) ---
-        const manifest = {
-            "name": "Tributos Premium",
-            "short_name": "Tributos",
-            "start_url": "./index.html",
-            "display": "standalone",
-            "background_color": "#0f172a",
-            "theme_color": "#38bdf8",
-            "description": "Calculadora de Tributos e Finanças",
-            "icons": [{ 
-                "src": "icone.png", 
-                "sizes": "512x512", 
-                "type": "image/png",
-                "purpose": "any maskable"
-            }]
-        };
-        const stringManifest = JSON.stringify(manifest);
-        const blob = new Blob([stringManifest], {type: 'application/json'});
-        const manifestURL = URL.createObjectURL(blob);
-        document.querySelector('#manifest-placeholder').setAttribute('href', manifestURL);
-
-        // Registro de Service Worker para funcionamento offline e instalação
+       
+        // Registro do Service Worker apontando para o arquivo sw.js
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('data:text/javascript;base64,' + btoa(`
-                self.addEventListener('fetch', function(event) {});
-            `));
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker registrado!', reg))
+                    .catch(err => console.log('Erro ao registrar SW:', err));
+            });
         }
 
         // --- LÓGICA DO APLICATIVO ---

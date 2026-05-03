@@ -66,12 +66,15 @@
         }
 
         .container {
-            width: 100%; max-width: 480px; height: 100%; padding: 15px;
-            margin: 0 auto;
-            display: flex; flex-direction: column;
-            justify-content: space-between;
+            width: 100%; 
+            max-width: 480px; 
+            padding: 20px;
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; /* Ocupa 100% da altura da tela */
+            box-sizing: border-box; /* Garante que o padding não quebre o layout */
         }
-
+        
         .tabs {
             display: flex; background: rgba(0,0,0,0.3);
             border-radius: 15px; padding: 4px; margin-bottom: 15px;
@@ -88,14 +91,22 @@
         }
 
         .tab-content { display: none; flex-grow: 1; }
-        .tab-content.active { display: flex; flex-direction: column; }
+        .tab-content.active {
+            display: flex;
+            flex-direction: column;
+            flex: 1; /* Faz esta div crescer */
+        }
 
         .glass-card {
-            background: var(--card); backdrop-filter: blur(20px);
+            background: var(--card); 
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 25px; padding: 15px;
-            display: flex; flex-direction: column;
-            justify-content: center; height: 100%;
+            border-radius: 35px; 
+            padding: 30px;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            flex: 1; /* Estica o card para baixo */
         }
 
         .label-sm {
@@ -120,10 +131,17 @@
 
         #total_val { font-size: 2.2rem; font-weight: 800; color: white; }
 
+        .results-list {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Espaçamento igual entre os itens */
+            flex: 1; /* Ocupa o restante do card */
+            margin-top: 10px;
+        }
+
         .result-card {
-            display: flex; justify-content: space-between; align-items: center;
-            background: rgba(15, 23, 42, 0.5); padding: 10px 15px; border-radius: 12px;
-            margin-bottom: 5px; border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 8px; /* Reduzi a margem fixa para o space-between agir */
+            min-height: 50px;   /* Garante uma altura mínima confortável */
         }
 
         .res-label { font-size: 0.7rem; font-weight: 700; color: var(--text-dim); }
@@ -168,23 +186,24 @@
         </div>
 
         <div id="tributos" class="tab-content active">
-            <div class="glass-card">
-                <span class="label-sm">Valor a Calcular</span>
-                <input type="tel" inputmode="numeric" id="valor_salario" placeholder="Digite aqui..." onkeyup="calcularTributos()">
-
-                <div class="total-display">
-                    <span id="total_val">R$ 0,00</span>
-                </div>
-                <div class="results-list">
-                    <div class="result-card"><span class="res-label">PRIMÍCIA</span><span class="res-val" id="res-p">R$ 0,00</span></div>
-                    <div class="result-card"><span class="res-label">DÍZIMO</span><span class="res-val" id="res-d">R$ 0,00</span></div>
-                    <div class="result-card"><span class="res-label">SOCORRO</span><span class="res-val" id="res-s">R$ 0,00</span></div>
-                    <div class="result-card"><span class="res-label">GRATIDÃO</span><span class="res-val" id="res-g">R$ 0,00</span></div>
-                    <div class="result-card"><span class="res-label">SEMEADURA</span><span class="res-val" id="res-sem">R$ 0,00</span></div>
-                    <div class="result-card"><span class="res-label">ISRAEL</span><span class="res-val" id="res-isr">R$ 0,00</span></div>
-                </div>
-            </div>
+    <div class="glass-card">
+        <span class="label-sm">Valor a Calcular</span>
+        <input type="text" id="valor_salario" placeholder="Digite aqui..." onkeyup="calcularTributos()">
+        
+        <div class="total-display">
+            <span id="total_val">R$ 0,00</span>
         </div>
+
+        <div class="results-list">
+            <div class="result-card"><span class="res-label">PRIMÍCIA</span><span class="res-val" id="res-p">R$ 0,00</span></div>
+            <div class="result-card"><span class="res-label">DÍZIMO</span><span class="res-val" id="res-d">R$ 0,00</span></div>
+            <div class="result-card"><span class="res-label">SOCORRO</span><span class="res-val" id="res-s">R$ 0,00</span></div>
+            <div class="result-card"><span class="res-label">GRATIDÃO</span><span class="res-val" id="res-g">R$ 0,00</span></div>
+            <div class="result-card"><span class="res-label">SEMEADURA</span><span class="res-val" id="res-sem">R$ 0,00</span></div>
+            <div class="result-card"><span class="res-label">ISRAEL</span><span class="res-val" id="res-isr">R$ 0,00</span></div>
+        </div>
+    </div>
+</div>
 
         <div id="calculadora" class="tab-content">
             <div class="glass-card">

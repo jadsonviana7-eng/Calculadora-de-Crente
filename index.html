@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#0f172a">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" id="manifest-placeholder">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
@@ -28,16 +28,17 @@
             --glow: rgba(56, 189, 248, 0.3);
         }
 
-        * { box-sizing: border-box; }
-
         body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
+            margin: 0; padding: 0; width: 100%; min-height: 100%;
             font-family: 'Inter', sans-serif;
             background: radial-gradient(circle at top right, var(--bg-light), var(--bg-deep));
             color: var(--text-main);
-            overflow: hidden; /* Impede a rolagem global */
+            display: flex; justify-content: center;
+            overflow-x: hidden;
+            touch-action: manipulation;
         }
 
+        /* Overlay do Versículo (Pop-up Inicial) */
         #overlay-verse {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(15, 23, 42, 0.98);
@@ -63,111 +64,101 @@
             padding: 20px; border-radius: 22px;
             font-weight: 800; font-size: 1.2rem; cursor: pointer;
             width: 100%; text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
-        .container {
-            width: 100%; 
-            max-width: 480px; 
-            padding: 20px;
-            display: flex; 
-            flex-direction: column; 
-            min-height: 100vh; /* Ocupa 100% da altura da tela */
-            box-sizing: border-box; /* Garante que o padding não quebre o layout */
+        /* Botão Sair */
+       /* .exit-app-btn {
+            position: absolute; top: 20px; left: 20px;
+            background: rgba(251, 113, 133, 0.15); border: 1px solid var(--danger);
+            color: var(--danger); border-radius: 10px; padding: 6px 12px;
+            font-size: 0.75rem; font-weight: 800; cursor: pointer; z-index: 100;
+        }*/
+
+        .label-sm {
+            display: block;
+            width: 100%;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
         }
         
+        .container {
+            width: 100%; max-width: 480px; padding: 20px;
+            display: flex; flex-direction: column; min-height: 100vh;
+            position: relative;
+        }
+
         .tabs {
             display: flex; background: rgba(0,0,0,0.3);
-            border-radius: 15px; padding: 4px; margin-bottom: 15px;
+            border-radius: 20px; padding: 6px; margin-bottom: 30px; margin-top: 20px;
         }
 
         .tab-btn {
-            flex: 1; padding: 12px; border: none; background: transparent;
+            flex: 1; padding: 15px; border: none; background: transparent;
             color: var(--text-dim); font-weight: 700; cursor: pointer;
-            border-radius: 12px; transition: 0.3s ease; font-size: 0.85rem;
+            border-radius: 15px; transition: 0.3s ease; font-size: 0.9rem;
         }
 
         .tab-btn.active {
             background: var(--primary); color: var(--bg-deep);
+            box-shadow: 0 8px 20px var(--glow);
         }
 
-        .tab-content { display: none; flex-grow: 1; }
-        .tab-content.active {
-            display: flex;
-            flex-direction: column;
-            flex: 1; /* Faz esta div crescer */
-        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
 
         .glass-card {
-            background: var(--card); 
-            backdrop-filter: blur(20px);
+            background: var(--card); backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 35px; 
-            padding: 30px;
+            border-radius: 35px; padding: 30px;
             box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.8);
-            display: flex;
-            flex-direction: column;
-            flex: 1; /* Estica o card para baixo */
-        }
-
-        .label-sm {
-            display: block; text-align: center; font-size: 0.7rem;
-            font-weight: 600; color: var(--text-dim);
-            margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.08em;
         }
 
         #valor_salario, .calc-display {
             width: 100%; background: rgba(0, 0, 0, 0.5);
             border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px; padding: 12px; font-size: 2rem;
+            border-radius: 24px; padding: 22px; font-size: 2.4rem;
             color: var(--danger); text-align: center; font-weight: 800;
-            outline: none; margin-bottom: 10px;
+            outline: none; box-sizing: border-box; margin-bottom: 15px;
         }
 
         .total-display {
             background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
-            border-radius: 20px; padding: 15px; margin: 10px 0;
-            text-align: center;
+            border-radius: 28px; padding: 25px; margin: 20px 0;
+            text-align: center; box-shadow: 0 15px 30px rgba(37, 99, 235, 0.4);
         }
 
-        #total_val { font-size: 2.2rem; font-weight: 800; color: white; }
-
-        .results-list {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between; /* Espaçamento igual entre os itens */
-            flex: 1; /* Ocupa o restante do card */
-            margin-top: 10px;
-        }
+        #total_val { font-size: 2.8rem; font-weight: 800; color: white; }
 
         .result-card {
-            margin-bottom: 8px; /* Reduzi a margem fixa para o space-between agir */
-            min-height: 50px;   /* Garante uma altura mínima confortável */
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(15, 23, 42, 0.5); padding: 18px 25px; border-radius: 20px;
+            margin-bottom: 10px; border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .res-label { font-size: 0.7rem; font-weight: 700; color: var(--text-dim); }
-        .res-val { color: #fff; font-size: 1rem; font-weight: 800; }
+        .res-label { font-size: 0.85rem; font-weight: 700; color: var(--text-dim); }
+        .res-val { color: #fff; font-size: 1.2rem; font-weight: 800; }
 
-        /* Calculadora Estilizada */
-        .calc-grid { 
-            display: grid; 
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 8px; /* Mais próximos */
-            flex-grow: 1;
-        }
+        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 25px; }
         .calc-btn {
-            padding: 0; border-radius: 10px; border: none; /* Menos raio */
+            padding: 22px 0; border-radius: 20px; border: none;
             background: rgba(255,255,255,0.08); color: white;
-            font-size: 1.6rem; font-weight: 700; cursor: pointer; 
-            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; font-weight: 700; cursor: pointer; transition: 0.2s;
         }
-        .calc-btn:active { transform: scale(0.95); background: rgba(255,255,255,0.15); }
+        .calc-btn:active { transform: scale(0.9); background: rgba(255,255,255,0.15); }
         .calc-btn.op { background: var(--primary); color: var(--bg-deep); }
         .calc-btn.eq { background: var(--success); color: white; }
 
-        .footer { text-align: center; padding: 10px 0; }
-        .created-text { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); }
-        .creator-info { font-size: 0.85rem; font-weight: 800; color: white; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .icon-coin { width: 18px; height: 18px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--bg-deep); font-weight: 800; font-size: 0.6rem; }
+        /* Footer */
+        .footer { margin-top: auto; text-align: center; padding: 40px 0 20px; }
+        .created-text { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); margin-bottom: 5px; }
+        .creator-info { font-size: 1rem; font-weight: 800; color: white; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .icon-coin { width: 24px; height: 24px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--bg-deep); font-weight: 800; font-size: 0.75rem; }
     </style>
 </head>
 <body onclick="entrarFullScreen()">
@@ -180,30 +171,29 @@
     </div>
 
     <div class="container">
+
         <div class="tabs">
             <button class="tab-btn active" onclick="openTab('tributos')">Tributos</button>
             <button class="tab-btn" onclick="openTab('calculadora')">Calculadora</button>
         </div>
 
         <div id="tributos" class="tab-content active">
-    <div class="glass-card">
-        <span class="label-sm">Valor a Calcular</span>
-        <input type="text" id="valor_salario" placeholder="Digite aqui..." onkeyup="calcularTributos()">
-        
-        <div class="total-display">
-            <span id="total_val">R$ 0,00</span>
+            <div class="glass-card">
+                <span class="label-sm">Valor a Calcular</span>
+               <input type="text" id="valor_salario" placeholder="Digite aqui..." onkeyup="calcularTributos()">
+                <div class="total-display">
+                    <span id="total_val">R$ 0,00</span>
+                </div>
+                <div class="results-list">
+                    <div class="result-card"><span class="res-label">PRIMÍCIA</span><span class="res-val" id="res-p">R$ 0,00</span></div>
+                    <div class="result-card"><span class="res-label">DÍZIMO</span><span class="res-val" id="res-d">R$ 0,00</span></div>
+                    <div class="result-card"><span class="res-label">SOCORRO</span><span class="res-val" id="res-s">R$ 0,00</span></div>
+                    <div class="result-card"><span class="res-label">GRATIDÃO</span><span class="res-val" id="res-g">R$ 0,00</span></div>
+                    <div class="result-card"><span class="res-label">SEMEADURA</span><span class="res-val" id="res-sem">R$ 0,00</span></div>
+                    <div class="result-card"><span class="res-label">ISRAEL</span><span class="res-val" id="res-isr">R$ 0,00</span></div>
+                </div>
+            </div>
         </div>
-
-        <div class="results-list">
-            <div class="result-card"><span class="res-label">PRIMÍCIA</span><span class="res-val" id="res-p">R$ 0,00</span></div>
-            <div class="result-card"><span class="res-label">DÍZIMO</span><span class="res-val" id="res-d">R$ 0,00</span></div>
-            <div class="result-card"><span class="res-label">SOCORRO</span><span class="res-val" id="res-s">R$ 0,00</span></div>
-            <div class="result-card"><span class="res-label">GRATIDÃO</span><span class="res-val" id="res-g">R$ 0,00</span></div>
-            <div class="result-card"><span class="res-label">SEMEADURA</span><span class="res-val" id="res-sem">R$ 0,00</span></div>
-            <div class="result-card"><span class="res-label">ISRAEL</span><span class="res-val" id="res-isr">R$ 0,00</span></div>
-        </div>
-    </div>
-</div>
 
         <div id="calculadora" class="tab-content">
             <div class="glass-card">
@@ -236,21 +226,44 @@
             </div>
         </div>
 
-        <div class="footer">
-            <div class="created-text">Created By</div>
-            <div class="creator-info">
-                <div class="icon-coin">$</div> JADSON VIANA
+            <div class="footer">
+                    <div class="created-text">Created By</div>
+                    <div class="creator-info">
+                    <div class="icon-coin">$</div> JADSON VIANA
+                </div>
+
             </div>
         </div>
-    </div>
-
     <script>
+        // --- LÓGICA PWA (SISTEMA DE INSTALAÇÃO) ---
+        const manifest = {
+            "name": "Tributos Premium",
+            "short_name": "Tributos",
+            "start_url": "./index.html",
+            "display": "standalone",
+            "background_color": "#0f172a",
+            "theme_color": "#38bdf8",
+            "description": "Calculadora de Tributos e Finanças",
+            "icons": [{ 
+                "src": "icone.png", 
+                "sizes": "512x512", 
+                "type": "image/png",
+                "purpose": "any maskable"
+            }]
+        };
+        const stringManifest = JSON.stringify(manifest);
+        const blob = new Blob([stringManifest], {type: 'application/json'});
+        const manifestURL = URL.createObjectURL(blob);
+        document.querySelector('#manifest-placeholder').setAttribute('href', manifestURL);
+
+        // Registro de Service Worker para funcionamento offline e instalação
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW fail:', err));
-            });
+            navigator.serviceWorker.register('data:text/javascript;base64,' + btoa(`
+                self.addEventListener('fetch', function(event) {});
+            `));
         }
 
+        // --- LÓGICA DO APLICATIVO ---
         const versiculos = [
             '"Honra ao Senhor com os teus bens e com as primícias de toda a tua renda." (Provérbios 3:9)',
             '"Cada um dê conforme determinou em seu coração, pois Deus ama quem dá com alegria." (2 Coríntios 9:7)',
@@ -260,7 +273,10 @@
         ];
 
         $(function() {
+            // Máscara de dinheiro
             $("#valor_salario").maskMoney({symbol:'R$ ', thousands:'.', decimal:',', precision:0});
+            
+            // Sorteia versículo e mostra Pop-up
             let rand = Math.floor(Math.random() * versiculos.length);
             $("#popup-text").text(versiculos[rand]);
             setTimeout(() => { $("#overlay-verse").addClass("show"); }, 300);
@@ -275,7 +291,14 @@
             let el = document.documentElement;
             if (el.requestFullscreen) el.requestFullscreen();
             else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+            else if (el.msRequestFullscreen) el.msRequestFullscreen();
         }
+
+        /*function sairApp() { 
+            if(confirm("Deseja fechar o aplicativo?")) {
+                window.location.href = "about:blank";
+            }
+        }*/
 
         function openTab(name) {
             $('.tab-content, .tab-btn').removeClass('active');
@@ -293,6 +316,7 @@
                 return;
             }
 
+            // Regras de cálculo
             let p = Math.ceil(v / 30);
             let d = Math.ceil((v - p) * 0.10);
             let s = Math.ceil(v * 0.02);
@@ -312,6 +336,7 @@
             $("#total_val").text(fmt(total));
         }
 
+        // Lógica da Calculadora
         let currentExp = "";
         function press(val) {
             if (currentExp === "0") currentExp = "";
